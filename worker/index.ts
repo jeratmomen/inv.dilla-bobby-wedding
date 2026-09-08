@@ -29,19 +29,29 @@ interface ExecutionContext {
 
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const url = new URL(request.url);
-
-// Redirect link undangan lama workers.dev ke custom domain baru.
+   // Redirect URL lama workers.dev ke custom domain baru.
 if (url.hostname === "dilla-bobby-wedding-inv.jeratmomen.workers.dev") {
-  const destination = new URL("https://inv.jeratmomen.my.id/dilla-bobby/");
+  let targetPath = "/dilla-bobby/";
 
-  // Pertahankan query string, termasuk ?to=Nama+Tamu
+  // Link admin lama
+  if (url.pathname === "/admin" || url.pathname === "/admin/") {
+    targetPath = "/dilla-bobby/admin";
+  }
+
+  // Link owner lama
+  else if (url.pathname === "/owner" || url.pathname.startsWith("/owner/")) {
+    targetPath = "/dilla-bobby/owner/";
+  }
+
+  const destination = new URL(
+    `https://inv.jeratmomen.my.id${targetPath}`
+  );
+
+  // Pertahankan query string seperti ?to=Nama
   destination.search = url.search;
 
   return Response.redirect(destination.toString(), 301);
 }
-
-const access=await adminAccess(request,env.ADMIN_LINK_KEY);if(access)return access;
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
