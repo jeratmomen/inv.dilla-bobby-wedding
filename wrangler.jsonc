@@ -19,6 +19,6 @@
     }
   ],
   "vars": {
-    "SITE_ORIGIN": "https://dilla-bobby-wedding.YOUR-SUBDOMAIN.workers.dev"
+    "SITE_ORIGIN": "https://dilla-bobby.weddinginvitation.workers.dev"
   }
 }
