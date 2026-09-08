@@ -14,7 +14,7 @@
     {
       "binding": "DB",
       "database_name": "dilla-bobby-wedding",
-      "database_id": "00000000-0000-4000-8000-000000000000",
+      "database_id": "20f5dd5b-7089-412b-9a82-6b18b40a6dd2",
       "migrations_dir": "drizzle"
     }
   ],
