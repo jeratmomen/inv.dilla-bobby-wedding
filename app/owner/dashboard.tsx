@@ -34,7 +34,7 @@ Dengan penuh rasa syukur dan tanpa mengurangi rasa hormat, kami bermaksud mengun
 *Dilla & Bobby*
 Minggu, 4 Oktober 2026
 
-Informasi lengkap mengenai waktu, lokasi, dan rangkaian acara dapat dilihat melalui tautan undangan berikut:
+Informasi lengkap mengenai waktu dan lokasi acara dapat dilihat melalui tautan undangan berikut:
 ${g.link}
 
 Merupakan suatu kebahagiaan dan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir serta memberikan doa restu untuk perjalanan baru kami.
