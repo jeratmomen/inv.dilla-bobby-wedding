@@ -31,6 +31,33 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    // Redirect hanya untuk hostname workers.dev lama.
+    // Gunakan 302 dulu selama pengujian agar browser tidak menyimpan redirect permanen.
+    if (url.hostname === "dilla-bobby-wedding-inv.jeratmomen.workers.dev") {
+      let destinationPath: string | null = null;
+
+      if (
+        url.pathname === "/" ||
+        url.pathname === "/dilla-bobby" ||
+        url.pathname === "/dilla-bobby/"
+      ) {
+        destinationPath = "/dilla-bobby/";
+      } else if (url.pathname === "/admin" || url.pathname === "/admin/") {
+        // #key=... tidak dikirim ke Worker; browser mempertahankan fragment tersebut.
+        destinationPath = "/dilla-bobby/admin";
+      } else if (url.pathname === "/owner" || url.pathname === "/owner/") {
+        destinationPath = "/dilla-bobby/owner/";
+      }
+
+      if (destinationPath) {
+        const destination = new URL(
+          `https://inv.jeratmomen.my.id${destinationPath}`
+        );
+        destination.search = url.search;
+        return Response.redirect(destination.toString(), 302);
+      }
+    }
+
     const access = await adminAccess(request, env.ADMIN_LINK_KEY);
     if (access) return access;
 
