@@ -1,10 +1,10 @@
+import {adminAccess} from "../lib/admin-link";
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 
 interface Env {
-  OWNER_USERNAME?: string;
-  OWNER_PASSWORD?: string;
+  ADMIN_LINK_KEY?: string;
   ASSETS: Fetcher;
   DB: D1Database;
   IMAGES: {
@@ -30,15 +30,7 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
-    if(url.pathname==="/owner"||url.pathname.startsWith("/owner/")||url.pathname.startsWith("/api/owner/")){
-      if(!env.OWNER_USERNAME||!env.OWNER_PASSWORD)return new Response("Atur OWNER_USERNAME dan OWNER_PASSWORD di Cloudflare Secrets.",{status:503});
-      let supplied="";try{const h=request.headers.get("authorization")||"";if(h.startsWith("Basic "))supplied=atob(h.slice(6))}catch{}
-      const digest=async(v:string)=>new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)));
-      const [a,b]=await Promise.all([digest(supplied),digest(env.OWNER_USERNAME+":"+env.OWNER_PASSWORD)]);
-      let diff=0;for(let i=0;i<a.length;i++)diff|=a[i]^b[i];
-      if(diff)return new Response("Login owner diperlukan.",{status:401,headers:{"WWW-Authenticate":'Basic realm="Owner Undangan", charset="UTF-8"',"Cache-Control":"no-store"}});
-    }
-
+    const access=await adminAccess(request,env.ADMIN_LINK_KEY);if(access)return access;
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

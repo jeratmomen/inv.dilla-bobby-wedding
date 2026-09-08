@@ -1,0 +1,5 @@
+Ekstrak ZIP. Ganti worker/index.ts dan lib/server.ts di GitHub; tambahkan lib/admin-link.ts. Jangan ganti wrangler.jsonc atau database. Commit lalu tunggu build berhasil.
+Cloudflare: Worker > Settings > Variables and Secrets > Add > tipe Secret, nama ADMIN_LINK_KEY. Isi string acak minimal 32 karakter huruf/angka (disarankan 64), simpan/deploy. Jangan masukkan secret ke GitHub.
+Buka https://ALAMAT-WEBSITE/admin#key=ISI_ADMIN_LINK_KEY
+Ganti ALAMAT-WEBSITE dan ISI_ADMIN_LINK_KEY sesuai milikmu. Simpan link sebagai bookmark. Link ini hanya untuk owner. Browser menyimpan akses 7 hari; buka link lagi jika kedaluwarsa. Mengganti ADMIN_LINK_KEY membatalkan semua sesi dan link sebelumnya. OWNER_USERNAME dan OWNER_PASSWORD lama tidak digunakan lagi dan boleh dihapus.
+Build lokal dan pengujian akses lulus; belum diterapkan ke GitHub/Cloudflare milikmu. Tidak perlu mengulang SQL.
